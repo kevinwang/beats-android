@@ -1,5 +1,10 @@
 package edu.uiuc.acm.beats;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -19,7 +24,7 @@ import android.widget.TextView;
 
 public class MainActivity extends FragmentActivity {
 //public class FragmentPagerSupport extends FragmentActivity {
-    static final int NUM_ITEMS = 3;
+    static final int NUM_ITEMS = 2;
 
     MyAdapter mAdapter;
 
@@ -62,7 +67,16 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return ArrayListFragment.newInstance(position);
+        	if (position==0) {
+        		//main song list
+                return ArrayListFragment.newInstance(position);
+        	}
+        	//play list
+        	Fragment fragment = new PlayListPageFragment();
+            Bundle args = new Bundle();
+            args.putInt(PlayListPageFragment.ARG_SECTION_NUMBER, position + 1);
+            fragment.setArguments(args);
+            return fragment;
         }
     }
 
@@ -109,7 +123,7 @@ public class MainActivity extends FragmentActivity {
         @Override
         public void onActivityCreated(Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
-            String Cheeses[] = {"good cheese", "bad cheese", "haha"};
+            String Cheeses[] = {"good cheese", "bad cheese", "haha", "good cheese", "bad cheese", "haha", "good cheese", "bad cheese", "haha", "good cheese", "bad cheese", "haha", "good cheese", "bad cheese", "haha", "good cheese", "bad cheese", "haha", "good cheese", "bad cheese", "haha", "good cheese", "bad cheese", "haha", "good cheese", "bad cheese", "haha", "good cheese", "bad cheese", "haha", "good cheese", "bad cheese", "haha", "good cheese", "bad cheese", "haha", "good cheese", "bad cheese", "haha", "good cheese", "bad cheese", "haha", "good cheese", "bad cheese", "haha", "good cheese", "bad cheese", "haha", "good cheese", "bad cheese", "haha"};
             setListAdapter(new ArrayAdapter<String>(getActivity(),
                     android.R.layout.simple_list_item_1, Cheeses));
         }
@@ -117,6 +131,37 @@ public class MainActivity extends FragmentActivity {
         @Override
         public void onListItemClick(ListView l, View v, int position, long id) {
             Log.i("FragmentList", "Item clicked: " + id);
+            /*
+            HttpURLConnection urlConnection;
+            try {
+	            URL url = new URL("http://www.android.com/");
+	            urlConnection = (HttpURLConnection) url.openConnection();
+				InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+            } finally {
+            	urlConnection.disconnect();
+            }
+            */
+        }
+    }
+
+    public static class PlayListPageFragment extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        public static final String ARG_SECTION_NUMBER = "section_number";
+ 
+        public PlayListPageFragment() {
+        }
+ 
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.play_list_slide_view, container, false);
+            TextView tv = (TextView) rootView.findViewById(R.id.playlist_text);
+            tv.setText("test playlist text: " +
+            		Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
+            return rootView;
         }
     }
 }
