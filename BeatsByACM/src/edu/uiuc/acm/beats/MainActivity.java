@@ -4,6 +4,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +26,9 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    public void httpRequest(View view){
+    	Log.d("MainActivity", "httpRequest button clicked");
+	}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
